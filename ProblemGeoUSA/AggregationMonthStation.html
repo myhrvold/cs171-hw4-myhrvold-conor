@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reduce Data Set</title>
+</head>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script type="text/javascript" src="../jquery-1.11.0.min.js"></script>
+<script src="../libs/FileSaver.js"></script>
+
+<div id="vis"></div>
+
+<script>
+
+    d3.json("../data/allData2003_2004.json",function(error,data){
+        
+        var allDates = {};
+        var timeParser = d3.time.format("%X %p");
+        
+        var keys = Object.keys(data);
+        //console.log(keys);
+        
+        for(i=0;i<keys.length;i++){
+            var key = keys[i];
+            //console.log(key);
+            var station_data = data[key];
+            
+            var florida_keys = Object.keys(station_data);
+            var reduce_station_data = {};
+            
+            var cum_sum = 0
+            for(j=0;j<florida_keys.length;j++){
+                var key_west = florida_keys[j];              
+                var entry = station_data[key_west];
+                var name = timeParser(new Date(entry.date)); // or entry["date"] ... 
+                var value = parseFloat(entry.value);
+                 
+                //first loop around, when we haven't seen a particular time, will show up as nan. so for the first time, we initialize to its own value.
+                var nan_check = reduce_station_data[name] + value;
+                if( !isNaN(nan_check) ){
+                    reduce_station_data[name] += value; //sum up values  
+                    cum_sum += value;
+                }
+                if( isNaN(nan_check) ){ 
+                    reduce_station_data[name] = value;
+                    cum_sum += value;
+                }
+            }
+            allDates[key] = {hourly:reduce_station_data,sum:cum_sum};
+        }
+        //console.log(allDates);
+        
+        saveToFile(allDates,"reducedMonthStationHour2003_2004.json")
+
+    })
+
+    var saveToFile = function(object, filename){
+        var blob, blobText;
+        blobText = [JSON.stringify(object)];
+        blob = new Blob(blobText, {
+            type: "text/plain;charset=utf-8"
+        });
+        saveAs(blob, filename);
+    }
+
+</script>
+
+
+</body>
+</html>
