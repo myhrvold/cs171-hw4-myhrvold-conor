@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CS171 HW4 Bonus Problem</title>
+    
+    <div> 
+        <h2> </h2> <!--this is a hack to indent to center -- something is wacky about way I've implemented CSS here :-p -->
+        <h3> World Bank Development Indicator Map </h3>
+    </div>
+</head>
+
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script type="text/javascript" src="../libs/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="../libs/colorbrewer.js"></script>
+
+<style type="text/css">
+
+    h2 + * {
+        margin-left: 300px;
+    }
+    
+    
+    svg{
+        background: #eeeeee;
+    }
+
+    .country{
+        fill: none;
+        stroke:  steelblue;
+    }
+    text{
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+        font-weight: bold;
+    }
+
+    table{
+        border:none;
+    }
+    
+    svg{
+        background: lightblue;
+    }
+
+    .country {
+        fill: white
+    }
+    
+    #mySVG {
+        margin-left:auto; 
+        margin-right: auto; 
+        display:block;
+        } 
+
+</style>
+
+<table>
+    <tr>
+        <td><div id="vis"></div></td><td><div id="textLabel"></div></td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td><div id="selector"></div> </td><td><div id="selectorYear"></div></td>
+    </tr>
+</table>
+
+
+<script src="GeoWorld.js"></script>
+
+</body>
+</html>
